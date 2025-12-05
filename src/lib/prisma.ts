@@ -1,17 +1,8 @@
 import { PrismaClient } from '@prisma/client';
-import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
-import path from 'path';
+
 
 const prismaClientSingleton = () => {
-  // In Next.js, process.cwd() is the project root
-  const dbPath = process.env.DATABASE_URL!.replace('file:', '');
-  const resolvedPath = path.resolve(process.cwd(), dbPath);
-
-  const adapter = new PrismaBetterSqlite3({
-    url: resolvedPath
-  });
-
-  return new PrismaClient({ adapter });
+  return new PrismaClient();
 };
 
 declare global {
