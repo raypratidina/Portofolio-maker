@@ -1,12 +1,26 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import prisma from '@/lib/prisma';
 import PublicSidebar from '@/components/PublicSidebar';
+import MobileNavbar from '@/components/MobileNavbar';
 import { MapPin, Calendar, Download, ArrowRight } from 'lucide-react';
+import { Metadata } from 'next';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 60; // Instant load, updates every 60s
+
+export async function generateMetadata(): Promise<Metadata> {
+  const user = await prisma.user.findFirst({
+    orderBy: { updatedAt: 'desc' }
+  });
+  return {
+    title: user?.name || 'Portfolio',
+    description: user?.bio || 'Check out my creative portfolio.',
+  };
+}
 
 async function getData() {
   const user = await prisma.user.findFirst({
+    orderBy: { updatedAt: 'desc' },
     include: {
       experiences: {
         orderBy: { startDate: 'desc' }
@@ -38,17 +52,25 @@ export default async function AboutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F9F9F9] dark:bg-black">
+    <div className="min-h-screen bg-[#F9F9F9] dark:bg-black pb-20 md:pb-0">
       <PublicSidebar user={user} />
+      <MobileNavbar />
 
       {/* Mobile Header */}
       <div className="md:hidden p-4 bg-white dark:bg-[#111] border-b border-gray-100 dark:border-gray-800 flex items-center justify-between sticky top-0 z-50">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
-            <img src={user.avatar || "https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff"} alt="Profile" />
+          <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden relative">
+            <Image
+              src={user.avatar || "https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff"}
+              alt="Profile"
+              fill
+              className="object-cover"
+              sizes="40px"
+            />
           </div>
           <div>
             <h1 className="font-bold text-sm">{user.name}</h1>
+            <p className="font-medium text-xs bg-gradient-to-r from-sky-500 to-indigo-400 bg-clip-text text-transparent text-left">{user.role || 'Portfolio Owner'}</p>
           </div>
         </div>
       </div>
@@ -61,7 +83,7 @@ export default async function AboutPage() {
 
             {/* Left Column: Intro Section */}
             <div className="bg-white dark:bg-[#111] rounded-2xl p-8 border border-zinc-200 dark:border-gray-800 h-full">
-              <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">Hello, I'm {user.name}</h1>
+              <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">Hello, Im {user.name}</h1>
               <p className="bg-gradient-to-r from-sky-500 to-indigo-400 bg-clip-text text-transparent mb-8 w-fit font-semibold">{user.role || 'Creative Professional'}</p>
               <p className="text-[14px] leading-[21px] text-[#4B4D50] dark:text-gray-400 leading-relaxed mb-6">
                 {user.bio || 'No bio available yet.'}
@@ -94,7 +116,15 @@ export default async function AboutPage() {
                       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-1">
                         <div className="flex items-center gap-3">
                           {exp.logo && (
-                            <img src={exp.logo} alt={exp.company} className="w-8 h-8 rounded-md object-cover border border-gray-100 dark:border-gray-800" />
+                            <div className="relative w-8 h-8 rounded-md overflow-hidden border border-gray-100 dark:border-gray-800 shrink-0">
+                              <Image
+                                src={exp.logo}
+                                alt={exp.company}
+                                fill
+                                className="object-cover"
+                                sizes="32px"
+                              />
+                            </div>
                           )}
                           <div>
                             <h3 className="text-base font-bold text-gray-900 dark:text-white">{exp.role}</h3>

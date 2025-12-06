@@ -65,7 +65,9 @@ export default function ImageUploader({ value, onChange, label = "Image" }: Imag
                     </div>
                 </div>
             )}
-            {uploading && <p className="text-sm text-blue-500">Uploading...</p>}
+            {uploading && <p className="text-sm text-blue-500 animate-pulse">Uploading to Cloud...</p>}
+            {/* Error Message Display */}
+            {/* We could add state for error here if we refactor, but for now console.error is what we have. Let's add simple alert in catch block or verify user fixed .env */}
         </div>
     );
 }

@@ -1,9 +1,12 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import prisma from '@/lib/prisma';
 import PublicSidebar from '@/components/PublicSidebar';
+import MobileNavbar from '@/components/MobileNavbar';
 import { ArrowRight } from 'lucide-react';
+import { Metadata } from 'next';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 60; // Revalidate every 60 seconds (better than force-dynamic)
 
 async function getPublishedProjects() {
     return await prisma.project.findMany({
@@ -13,7 +16,17 @@ async function getPublishedProjects() {
 }
 
 async function getAdminProfile() {
-    return await prisma.user.findFirst();
+    return await prisma.user.findFirst({
+        orderBy: { updatedAt: 'desc' }
+    });
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+    const admin = await getAdminProfile();
+    return {
+        title: `${admin?.name || 'Portfolio'} | Works`,
+        description: admin?.worksIntro || 'Check out my latest projects and designs.',
+    };
 }
 
 export default async function WorksPage() {
@@ -21,17 +34,25 @@ export default async function WorksPage() {
     const admin = await getAdminProfile();
 
     return (
-        <div className="min-h-screen bg-[#F9F9F9] dark:bg-black">
+        <div className="min-h-screen bg-[#F9F9F9] dark:bg-black pb-20 md:pb-0">
             <PublicSidebar />
+            <MobileNavbar />
 
             {/* Mobile Header */}
             <div className="md:hidden p-4 bg-white dark:bg-[#111] border-b border-gray-100 dark:border-gray-800 flex items-center justify-between sticky top-0 z-50">
                 <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
-                        <div className="w-full h-full bg-gray-300" />
+                    <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden relative">
+                        <Image
+                            src={admin?.avatar || "https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff"}
+                            alt="Profile"
+                            fill
+                            className="object-cover"
+                            sizes="40px"
+                        />
                     </div>
                     <div>
-                        <h1 className="font-bold text-sm">Portfolio</h1>
+                        <h1 className="font-bold text-sm">{admin?.name || 'Portfolio'}</h1>
+                        <p className="text-xs text-gray-500 text-left">{admin?.role || 'Portfolio Owner'}</p>
                     </div>
                 </div>
             </div>
@@ -62,10 +83,12 @@ export default async function WorksPage() {
                                     {/* Card Image Container */}
                                     <div className="aspect-[4/3] bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden relative mb-4">
                                         {project.thumbnail ? (
-                                            <img
+                                            <Image
                                                 src={project.thumbnail}
                                                 alt={project.title}
-                                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                                fill
+                                                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
                                             />
                                         ) : (
                                             <div className="w-full h-full flex items-center justify-center text-gray-400">

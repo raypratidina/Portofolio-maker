@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio CMS
+A modern, dynamic portfolio website with a built-in Admin CMS (Content Management System). Built with **Next.js 14**, **PostgreSQL**, **Prisma**, and **Tailwind CSS**.
 
-## Getting Started
+## ✨ Features
+- **Dynamic Content**: Update everything (Profile, Experience, Projects) from the Admin Panel.
+- **Admin Dashboard**: Secure login/register system.
+- **Modern Design**: Responsive, Dark Mode support, and fast loading.
+- **SEO Optimized**: Dynamic metadata for better Google ranking.
 
-First, run the development server:
+## 🛠️ Requirements
+Before cloning, ensure you have:
+- [Node.js](https://nodejs.org/) (v18 or newer)
+- [Git](https://git-scm.com/)
+- A **PostgreSQL Database** (Recommended: [Neon.tech](https://neon.tech) for free cloud DB)
 
+## 🚀 How to Run Locally
+
+### 1. Clone the Repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/USERNAME/REPO_NAME.git
+cd portfolio-cms
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install Dependencies
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Setup Environment Variables
+Create a new file named `.env` in the root folder.
+Copy and paste the following content, but **replace the values** with your own:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```env
+# Database Connection String (Get this from Neon/Supabase/Local Postgres)
+DATABASE_URL="postgresql://user:password@host/database?sslmode=require"
 
-## Learn More
+# Security Key for Login (Random strings)
+NEXTAUTH_SECRET="supersecretkey123"
 
-To learn more about Next.js, take a look at the following resources:
+# Base URL (http://localhost:3000 for local dev)
+NEXTAUTH_URL="http://localhost:3000"
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 4. Setup Database
+Run this command to create the tables in your database:
+```bash
+npx prisma db push
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 5. Run the App
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) to see the result.
 
-## Deploy on Vercel
+## 🔐 Admin Access
+- Go to `/admin/login`
+- Click "Need an account? Register" to create your first admin account.
+- Once logged in, you can update your profile and add projects.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📦 Deployment
+This project is ready to be deployed on **Vercel**.
+1. Push your code to GitHub.
+2. Import project in Vercel.
+3. Add the Environment Variables (`DATABASE_URL`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL`) in Vercel Settings.
+4. Deploy!

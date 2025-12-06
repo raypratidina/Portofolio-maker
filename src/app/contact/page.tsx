@@ -1,26 +1,41 @@
 import prisma from '@/lib/prisma';
 import PublicSidebar from '@/components/PublicSidebar';
+import MobileNavbar from '@/components/MobileNavbar';
 import { Mail, MapPin } from 'lucide-react';
+import { Metadata } from 'next';
+import Image from 'next/image';
+
+export const revalidate = 60; // Instant load
 
 async function getUser() {
-    return await prisma.user.findFirst();
+    return await prisma.user.findFirst({
+        orderBy: { updatedAt: 'desc' }
+    });
 }
 
 export default async function ContactPage() {
     const user = await getUser();
 
     return (
-        <div className="min-h-screen bg-[#F9F9F9] dark:bg-black">
+        <div className="min-h-screen bg-[#F9F9F9] dark:bg-black pb-20 md:pb-0">
             <PublicSidebar />
+            <MobileNavbar />
 
             {/* Mobile Header */}
             <div className="md:hidden p-4 bg-white dark:bg-[#111] border-b border-gray-100 dark:border-gray-800 flex items-center justify-between sticky top-0 z-50">
                 <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
-                        <img src={user?.avatar || "https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff"} alt="Profile" />
+                    <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden relative">
+                        <Image
+                            src={user?.avatar || "https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff"}
+                            alt="Profile"
+                            fill
+                            className="object-cover"
+                            sizes="40px"
+                        />
                     </div>
                     <div>
-                        <h1 className="font-bold text-sm">Contact</h1>
+                        <h1 className="font-bold text-sm">{user?.name || 'Contact'}</h1>
+                        <p className="text-xs text-gray-500 text-left">{user?.role || 'Portfolio Owner'}</p>
                     </div>
                 </div>
             </div>

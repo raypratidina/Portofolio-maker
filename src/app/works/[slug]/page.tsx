@@ -54,7 +54,7 @@ export default async function ProjectDetailPage({
                     )}
 
                     {/* Project Details Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16 border-b border-gray-100 dark:border-gray-800 pb-12">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 border-b border-gray-100 dark:border-gray-800 pb-12">
                         <div>
                             <h3 className="text-[14px] leading-[21px] font-bold text-[#4B4D50] dark:text-white uppercase tracking-wider mb-2">Role</h3>
                             <p className="text-[16px] leading-[24px] font-bold text-[#000000] dark:text-gray-400">{project.role || '-'}</p>
