@@ -40,7 +40,7 @@ export default async function PublicSidebar({ user }: PublicSidebarProps) {
 
                 {admin?.cvUrl && (
                     <a
-                        href={admin.cvUrl.replace('/upload/', '/upload/fl_attachment/')}
+                        href={admin.cvUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-xs font-bold text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors border-b border-gray-300 dark:border-gray-700 pb-1 w-fit"
