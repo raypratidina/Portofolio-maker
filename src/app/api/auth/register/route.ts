@@ -3,6 +3,14 @@ import { hash } from 'bcryptjs';
 import prisma from '@/lib/prisma';
 
 export async function POST(req: Request) {
+    // 🔒 SECURITY CHECK: Disable registration by default
+    if (process.env.REGISTRATION_ENABLED !== 'true') {
+        return NextResponse.json(
+            { error: 'Registration is currently disabled by administrator.' },
+            { status: 403 }
+        );
+    }
+
     try {
         const { email, password, name } = await req.json();
 
