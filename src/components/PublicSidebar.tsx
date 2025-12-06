@@ -38,16 +38,15 @@ export default async function PublicSidebar({ user }: PublicSidebarProps) {
                 <h1 className="text-2xl font-semibold text-gray-900 dark:text-white tracking-tight">{admin?.name || 'Admin'}</h1>
                 <p className="text-sm bg-gradient-to-r from-sky-500 to-indigo-400 bg-clip-text text-transparent mb-8 w-fit mt-2 font-semibold tracking-wide uppercase">{admin?.role || 'Portfolio Owner'}</p>
 
-                {admin?.cvUrl && (
-                    <a
-                        href={admin.cvUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-xs font-bold text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors border-b border-gray-300 dark:border-gray-700 pb-1 w-fit"
-                    >
-                        DOWNLOAD CV
-                    </a>
-                )}
+                {/* Google Drive CV Link (Hardcoded for stability) */}
+                <a
+                    href="https://drive.google.com/file/d/1EyT4JffL_7YdHxffLQvw7Syhj_oGA0CJ/view?usp=sharing"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs font-bold text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors border-b border-gray-300 dark:border-gray-700 pb-1 w-fit"
+                >
+                    DOWNLOAD CV
+                </a>
             </div>
 
             <SidebarNav />
