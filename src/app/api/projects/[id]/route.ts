@@ -44,9 +44,11 @@ export async function PUT(
         const updateData: any = { ...json };
         delete updateData.media; // Handle media relation separately
 
+        let updatedProject;
+
         if (json.media) {
             // Transaction to update project and replace media
-            const [updatedProject] = await prisma.$transaction([
+            [updatedProject] = await prisma.$transaction([
                 prisma.project.update({
                     where: { id },
                     data: {
@@ -62,15 +64,20 @@ export async function PUT(
                     include: { media: true }
                 })
             ]);
-            return NextResponse.json(updatedProject);
         } else {
-            const project = await prisma.project.update({
+            updatedProject = await prisma.project.update({
                 where: { id },
                 data: updateData,
                 include: { media: true }
             });
-            return NextResponse.json(project);
         }
+
+        // Clear cache
+        const { revalidatePath } = await import('next/cache');
+        revalidatePath('/');
+        revalidatePath('/works');
+
+        return NextResponse.json(updatedProject);
 
     } catch (error) {
         console.error('Error updating project:', error);
@@ -92,6 +99,12 @@ export async function DELETE(
         await prisma.project.delete({
             where: { id }
         });
+
+        // Clear cache
+        const { revalidatePath } = await import('next/cache');
+        revalidatePath('/');
+        revalidatePath('/works');
+
         return NextResponse.json({ success: true });
     } catch (error) {
         return NextResponse.json({ error: 'Error deleting project' }, { status: 500 });

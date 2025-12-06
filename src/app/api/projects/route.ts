@@ -45,6 +45,12 @@ export async function POST(request: Request) {
                 }
             },
         });
+
+        // Clear caches
+        const { revalidatePath } = await import('next/cache');
+        revalidatePath('/');
+        revalidatePath('/works');
+
         return NextResponse.json(project);
     } catch (error) {
         console.error('Error creating project:', error);
