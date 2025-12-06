@@ -133,12 +133,16 @@ export default function SettingsPage() {
                     </div>
 
                     <div>
-                        <FileUploader
-                            label="Curriculum Vitae (PDF)"
+                        <label className="block text-sm font-medium text-gray-700">Link Curriculum Vitae (PDF/Google Drive)</label>
+                        <input
+                            type="text"
+                            name="cvUrl"
                             value={formData.cvUrl}
-                            onChange={(url) => setFormData(prev => ({ ...prev, cvUrl: url }))}
-                            accept=".pdf"
+                            onChange={handleChange}
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 font-medium placeholder-gray-400 focus:ring-2 focus:ring-blue-600 focus:border-transparent focus:bg-blue-50 transition-all duration-200 outline-none"
+                            placeholder="https://drive.google.com/file/d/..."
                         />
+                        <p className="mt-1 text-xs text-gray-500">Paste link CV Anda di sini (Google Drive, Dropbox, atau link PDF langsung).</p>
                     </div>
 
                     <div>
