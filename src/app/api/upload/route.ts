@@ -34,12 +34,23 @@ export async function POST(request: Request) {
         const uploadResult = await new Promise((resolve, reject) => {
             const isPdf = file.type === 'application/pdf' || file.name.endsWith('.pdf');
 
-            cloudinary.uploader.upload_stream({
-                folder: 'portfolio', // Optional: organize in folder
-                resource_type: isPdf ? 'raw' : 'auto', // Use 'raw' for PDFs to prevent corruption
+            const uploadOptions: any = {
+                folder: 'portfolio',
+                resource_type: isPdf ? 'raw' : 'auto',
                 use_filename: true,
-                unique_filename: true
-            }, (error, result) => {
+                unique_filename: true,
+            };
+
+            if (isPdf) {
+                // FORCE .pdf extension for raw files so they have correct format on download
+                // We use a timestamp to make it unique but keep the .pdf at the end
+                const filename = file.name.replace(/\.pdf$/i, '').replace(/[^a-zA-Z0-9]/g, '_');
+                uploadOptions.public_id = `${filename}_${Date.now()}.pdf`;
+                uploadOptions.unique_filename = false;
+                uploadOptions.use_filename = false;
+            }
+
+            cloudinary.uploader.upload_stream(uploadOptions, (error, result) => {
                 if (error) {
                     reject(error);
                     return;
