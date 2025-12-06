@@ -29,6 +29,12 @@ export async function GET() {
     }
 }
 
+import { revalidatePath } from 'next/cache';
+
+// ... (imports)
+
+// ... (GET handler)
+
 export async function PUT(request: Request) {
     const session = await getServerSession(authOptions);
     if (!session || !session.user?.email) {
@@ -53,8 +59,13 @@ export async function PUT(request: Request) {
                 worksIntro: json.worksIntro,
             } as any,
         });
-        return NextResponse.json(user);
 
+        // Clear Cache for Public Pages
+        revalidatePath('/');
+        revalidatePath('/contact');
+        revalidatePath('/works');
+
+        return NextResponse.json(user);
     } catch (error: any) {
         console.error('Attempt 1 Failed:', error.message);
 

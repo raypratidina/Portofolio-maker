@@ -58,10 +58,10 @@ export default function ImageUploader({ value, onChange, label = "Image" }: Imag
                         <div className="flex text-sm text-gray-600">
                             <label className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
                                 <span>Upload a file</span>
-                                <input type="file" className="sr-only" accept="image/*" onChange={handleUpload} disabled={uploading} />
+                                <input type="file" className="sr-only" accept="image/*,.pdf,application/pdf" onChange={handleUpload} disabled={uploading} />
                             </label>
                         </div>
-                        <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                        <p className="text-xs text-gray-500">Images (PNG, JPG) or Document (PDF) up to 10MB</p>
                     </div>
                 </div>
             )}
