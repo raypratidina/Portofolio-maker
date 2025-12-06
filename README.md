@@ -52,3 +52,5 @@ Website Portfolio modern dengan panel Admin untuk mengelola Project, Experience,
 - **ORM**: Prisma
 - **Auth**: NextAuth.js
 - **Styling**: Tailwind CSS
+
+> **Terakhir Diperbarui**: 6 Desember 2025 (PDF Fix Included)
