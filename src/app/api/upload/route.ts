@@ -32,9 +32,13 @@ export async function POST(request: Request) {
 
         // We wrap cloudinary upload in a Promise
         const uploadResult = await new Promise((resolve, reject) => {
+            const isPdf = file.type === 'application/pdf' || file.name.endsWith('.pdf');
+
             cloudinary.uploader.upload_stream({
                 folder: 'portfolio', // Optional: organize in folder
-                resource_type: 'auto'
+                resource_type: isPdf ? 'raw' : 'auto', // Use 'raw' for PDFs to prevent corruption
+                use_filename: true,
+                unique_filename: true
             }, (error, result) => {
                 if (error) {
                     reject(error);
