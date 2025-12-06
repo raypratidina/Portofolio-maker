@@ -1,66 +1,54 @@
-# Portfolio CMS
-A modern, dynamic portfolio website with a built-in Admin CMS (Content Management System). Built with **Next.js 14**, **PostgreSQL**, **Prisma**, and **Tailwind CSS**.
+# Portfolio CMS (Next.js + Prisma + Neon + Cloudinary)
 
-## ✨ Features
-- **Dynamic Content**: Update everything (Profile, Experience, Projects) from the Admin Panel.
-- **Admin Dashboard**: Secure login/register system.
-- **Modern Design**: Responsive, Dark Mode support, and fast loading.
-- **SEO Optimized**: Dynamic metadata for better Google ranking.
+Website Portfolio modern dengan panel Admin untuk mengelola Project, Experience, dan Profile.
 
-## 🛠️ Requirements
-Before cloning, ensure you have:
-- [Node.js](https://nodejs.org/) (v18 or newer)
-- [Git](https://git-scm.com/)
-- A **PostgreSQL Database** (Recommended: [Neon.tech](https://neon.tech) for free cloud DB)
+## ✨ Fitur Utama
+- **Admin Panel**: Dashboard lengkap untuk update konten tanpa coding.
+- **Upload Gambar**: Integrasi Cloudinary (Cloud Storage).
+- **Database**: PostgreSQL via Neon.tech.
+- **Optimasi**: Next.js App Router & ISR (Update instan).
+- **Responsive**: Layout mobile-friendly dengan Bottom Nav.
 
-## 🚀 How to Run Locally
+## 🚀 Cara Install (Untuk Developer Baru)
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/USERNAME/REPO_NAME.git
-cd portfolio-cms
-```
+1. **Clone Repository**
+   ```bash
+   git clone https://github.com/raypratidina/Portofolio-maker.git
+   cd Portofolio-maker
+   ```
 
-### 2. Install Dependencies
-```bash
-npm install
-```
+2. **Install Library**
+   ```bash
+   npm install
+   ```
 
-### 3. Setup Environment Variables
-Create a new file named `.env` in the root folder.
-Copy and paste the following content, but **replace the values** with your own:
+3. **Setting Environment (.env)**
+   - Buat file `.env` (duplikat dari `.env.example`).
+   - Isi kredensial berikut:
+   ```env
+   DATABASE_URL="postgres://..."
+   NEXTAUTH_SECRET="rahasia123"
+   NEXTAUTH_URL="http://localhost:3000"
+   CLOUDINARY_CLOUD_NAME="..."
+   CLOUDINARY_API_KEY="..."
+   CLOUDINARY_API_SECRET="..."
+   ```
 
-```env
-# Database Connection String (Get this from Neon/Supabase/Local Postgres)
-DATABASE_URL="postgresql://user:password@host/database?sslmode=require"
+4. **Koneksi Database**
+   ```bash
+   npx prisma generate
+   npx prisma db push
+   ```
 
-# Security Key for Login (Random strings)
-NEXTAUTH_SECRET="supersecretkey123"
+5. **Jalankan Aplikasi**
+   ```bash
+   npm run dev
+   ```
+   Buka `http://localhost:3000` di browser.
 
-# Base URL (http://localhost:3000 for local dev)
-NEXTAUTH_URL="http://localhost:3000"
-```
-
-### 4. Setup Database
-Run this command to create the tables in your database:
-```bash
-npx prisma db push
-```
-
-### 5. Run the App
-```bash
-npm run dev
-```
-Open [http://localhost:3000](http://localhost:3000) to see the result.
-
-## 🔐 Admin Access
-- Go to `/admin/login`
-- Click "Need an account? Register" to create your first admin account.
-- Once logged in, you can update your profile and add projects.
-
-## 📦 Deployment
-This project is ready to be deployed on **Vercel**.
-1. Push your code to GitHub.
-2. Import project in Vercel.
-3. Add the Environment Variables (`DATABASE_URL`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL`) in Vercel Settings.
-4. Deploy!
+## 🛠️ Stack Teknologi
+- **Framework**: Next.js 15+ (App Router)
+- **Database**: PostgreSQL (Neon/Supabase)
+- **ORM**: Prisma
+- **Auth**: NextAuth.js
+- **Styling**: Tailwind CSS
