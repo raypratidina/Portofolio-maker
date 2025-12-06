@@ -92,11 +92,11 @@ export default async function AboutPage() {
                 <div className="mt-6 pt-6 border-t border-gray-100 dark:border-gray-800">
                   <a
                     href={user.cvUrl}
-                    download={user.cvUrl.split('/').pop()}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-5 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-full hover:bg-gray-800 transition-all hover:shadow-lg group dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100"
                   >
-                    <Download className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />
-                    Download CV
+                    Get the CV
                   </a>
                 </div>
               )}
