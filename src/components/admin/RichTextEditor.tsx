@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import 'react-quill-new/dist/quill.snow.css';
 
 // Dynamic import to avoid SSR issues with Quill
@@ -17,16 +17,66 @@ interface RichTextEditorProps {
 }
 
 export default function RichTextEditor({ value, onChange, label }: RichTextEditorProps) {
+    // Correctly type the ref to access the ReactQuill instance methods
+    const quillRef = useRef<any>(null);
 
+    // useMemo to prevent modules from being recreated on every render, causing Quill to re-init
     const modules = useMemo(() => ({
-        toolbar: [
-            [{ 'header': [1, 2, 3, false] }],
-            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            ['link'],
-            ['clean']
-        ],
-    }), []);
+        toolbar: {
+            container: [
+                [{ 'header': [1, 2, 3, false] }],
+                ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                ['link', 'image'],
+                ['clean']
+            ],
+            handlers: {
+                image: function () {
+                    // Custom image handler to upload to server instead of Base64
+                    const input = document.createElement('input');
+                    input.setAttribute('type', 'file');
+                    input.setAttribute('accept', 'image/*');
+                    input.click();
+
+                    input.onchange = async () => {
+                        const file = input.files?.[0];
+                        if (file) {
+                            const formData = new FormData();
+                            formData.append('file', file);
+
+                            try {
+                                // Show loading placeholder if possible, or simple wait
+                                const res = await fetch('/api/upload', {
+                                    method: 'POST',
+                                    body: formData
+                                });
+
+                                if (!res.ok) throw new Error('Upload failed');
+
+                                const data = await res.json();
+                                const url = data.url;
+
+                                // Insert image embed
+                                // We need to access the quill instance. 
+                                // Since this handler is defined inside useMemo, we need access to quillRef.
+                                // However, `this` context inside handler refers to the toolbar usually.
+                                // But we can use the ref if it's stable.
+
+                                if (quillRef.current) {
+                                    const quill = quillRef.current.getEditor();
+                                    const range = quill.getSelection(true);
+                                    quill.insertEmbed(range.index, 'image', url);
+                                }
+                            } catch (err) {
+                                console.error('Image upload failed:', err);
+                                alert('Failed to upload image. Please try again.');
+                            }
+                        }
+                    };
+                }
+            }
+        }
+    }), []); // Dependencies empty is fine as long as quillRef is stable.
 
     const formats = [
         'header',
@@ -40,6 +90,7 @@ export default function RichTextEditor({ value, onChange, label }: RichTextEdito
             {label && <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{label}</label>}
             <div className="quill-wrapper bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-md overflow-hidden">
                 <ReactQuill
+                    ref={quillRef}
                     theme="snow"
                     value={value}
                     onChange={onChange}
@@ -69,7 +120,7 @@ export default function RichTextEditor({ value, onChange, label }: RichTextEdito
                 }
                 .quill-wrapper .ql-container {
                     border: none;
-                    font-size: 1rem;
+                    fontSize: 1rem;
                     min-height: 300px;
                 }
                 .dark .quill-wrapper .ql-editor {
