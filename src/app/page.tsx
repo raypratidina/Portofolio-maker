@@ -135,10 +135,20 @@ export default async function AboutPage() {
                           {formatDate(exp.startDate)} - {exp.current ? 'Present' : (exp.endDate ? formatDate(exp.endDate) : '')}
                         </span>
                       </div>
-                      <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mt-2">
-
-                        {exp.description}
-                      </p>
+                      <div className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mt-3 space-y-1">
+                        {exp.description.includes('-') || exp.description.includes('\n') ? (
+                          <ul className="list-none space-y-1.5 list-inside">
+                            {exp.description.split(/(?:^|\n)- |(?:^|\n)• |(?:\s)- /).filter((item: string) => item.trim().length > 0).map((item: string, i: number) => (
+                              <li key={i} className="flex items-start">
+                                <span className="mr-2 mt-1.5 w-1 h-1 bg-gray-400 rounded-full shrink-0 block" />
+                                <span>{item.trim()}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p>{exp.description}</p>
+                        )}
+                      </div>
                     </div>
                   ))
                 ) : (
