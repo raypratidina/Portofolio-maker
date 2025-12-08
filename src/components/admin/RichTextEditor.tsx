@@ -23,7 +23,7 @@ export default function RichTextEditor({ value, onChange, label }: RichTextEdito
             [{ 'header': [1, 2, 3, false] }],
             ['bold', 'italic', 'underline', 'strike', 'blockquote'],
             [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            ['link', 'image'],
+            ['link'],
             ['clean']
         ],
     }), []);
