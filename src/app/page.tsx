@@ -3,6 +3,7 @@ import Image from 'next/image';
 import prisma from '@/lib/prisma';
 import PublicSidebar from '@/components/PublicSidebar';
 import MobileNavbar from '@/components/MobileNavbar';
+import ExperienceItem from '@/components/ExperienceItem';
 import { MapPin, Calendar, Download, ArrowRight } from 'lucide-react';
 import { Metadata } from 'next';
 
@@ -111,49 +112,7 @@ export default async function AboutPage() {
               <div className="space-y-8">
                 {user.experiences.length > 0 ? (
                   user.experiences.map((exp: any) => (
-                    <div key={exp.id} className="relative pl-6 border-l border-gray-200 dark:border-gray-800 last:border-0">
-                      <div className="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-gray-200 dark:bg-gray-700 ring-4 ring-white dark:ring-[#111]" />
-                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-1">
-                        <div className="flex items-center gap-3">
-                          {exp.logo && (
-                            <div className="relative w-8 h-8 rounded-md overflow-hidden border border-gray-100 dark:border-gray-800 shrink-0">
-                              <Image
-                                src={exp.logo}
-                                alt={exp.company}
-                                fill
-                                className="object-cover"
-                                sizes="32px"
-                              />
-                            </div>
-                          )}
-                          <div>
-                            <h3 className="text-base font-bold text-gray-900 dark:text-white">{exp.role}</h3>
-                            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{exp.company}</p>
-                          </div>
-                        </div>
-                        <span className="text-xs font-medium text-gray-400 bg-gray-50 dark:bg-gray-800 px-2 py-1 rounded-md mt-1 sm:mt-0 w-fit">
-                          {formatDate(exp.startDate)} - {exp.current ? 'Present' : (exp.endDate ? formatDate(exp.endDate) : '')}
-                        </span>
-                      </div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mt-3 space-y-1">
-                        {exp.description.match(/[-•]/) || exp.description.includes('\n') ? (
-                          <ul className="list-none space-y-1.5 list-inside">
-                            {/* Split by: Newline/Start + dash, OR Dot+space+dash, OR just space+dash (careful with hyphens) */}
-                            {exp.description
-                              .split(/(?:^|[\r\n]+)\s*[-•]\s*|(?:\.\s+)[-•]\s*|(?:\s+)-/)
-                              .filter((item: string) => item.trim().length > 2) // Filter empty or very short artifacts
-                              .map((item: string, i: number) => (
-                                <li key={i} className="flex items-start">
-                                  <span className="mr-2 mt-1.5 w-1 h-1 bg-gray-400 rounded-full shrink-0 block" />
-                                  <span>{item.trim().replace(/^-/, '')}</span>
-                                </li>
-                              ))}
-                          </ul>
-                        ) : (
-                          <p>{exp.description}</p>
-                        )}
-                      </div>
-                    </div>
+                    <ExperienceItem key={exp.id} exp={exp} />
                   ))
                 ) : (
                   <p className="text-gray-500 text-sm italic">No experience added yet.</p>
