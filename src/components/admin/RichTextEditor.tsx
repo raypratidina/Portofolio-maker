@@ -89,9 +89,8 @@ export default function RichTextEditor({ value, onChange, label }: RichTextEdito
         <div className="space-y-2">
             {label && <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{label}</label>}
             <div className="quill-wrapper bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-md overflow-hidden">
-                {/* @ts-ignore */}
                 <ReactQuill
-                    ref={quillRef}
+                    {...({ ref: quillRef } as any)}
                     theme="snow"
                     value={value}
                     onChange={onChange}
