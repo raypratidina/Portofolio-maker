@@ -38,7 +38,18 @@ async function getData() {
     orderBy: { createdAt: 'desc' }
   });
 
-  return { user, featuredProjects };
+  const designShotProjects = await prisma.project.findMany({
+    where: {
+      status: 'PUBLISHED',
+      category: {
+        contains: 'Exploration', // Filter for Exploration/Shot category
+      }
+    } as any,
+    take: 6,
+    orderBy: { createdAt: 'desc' }
+  });
+
+  return { user, featuredProjects, designShotProjects };
 }
 
 function formatDate(date: Date) {
@@ -46,7 +57,7 @@ function formatDate(date: Date) {
 }
 
 export default async function AboutPage() {
-  const { user, featuredProjects } = await getData();
+  const { user, featuredProjects, designShotProjects } = await getData();
 
   if (!user) {
     return <div>Loading...</div>;
@@ -183,6 +194,46 @@ export default async function AboutPage() {
               </div>
             </div>
 
+          )}
+
+          {/* Design Shot Exploration Section (New) */}
+          {designShotProjects && designShotProjects.length > 0 && (
+            <section className="mb-20">
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">My Design Shot Exploration</h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {designShotProjects.map((project: any) => (
+                  <Link href={`/works/${project.slug}`} key={project.id} className="group block">
+                    <div className="bg-gray-50 dark:bg-gray-900 rounded-xl overflow-hidden border border-gray-100 dark:border-gray-800 transition-all duration-300 hover:shadow-lg">
+                      <div className="relative aspect-[4/3] overflow-hidden">
+                        {project.thumbnail ? (
+                          <img
+                            src={project.thumbnail}
+                            alt={project.title}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-gray-400 bg-gray-100 dark:bg-gray-800">
+                            No Image
+                          </div>
+                        )}
+                        {/* Overlay */}
+                        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                          <div className="bg-white/90 dark:bg-black/80 text-gray-900 dark:text-white px-3 py-1.5 rounded-full text-xs font-medium">
+                            View Shot
+                          </div>
+                        </div>
+                      </div>
+                      <div className="p-4">
+                        <h3 className="text-base font-bold text-gray-900 dark:text-white mb-1">{project.title}</h3>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">{project.category || 'Exploration'}</p>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </section>
           )}
         </div>
       </main>

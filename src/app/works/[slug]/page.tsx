@@ -64,8 +64,8 @@ export default async function ProjectDetailPage({
                             <p className="text-[16px] leading-[24px] font-bold text-[#000000] dark:text-gray-400">{project.year || '-'}</p>
                         </div>
                         <div>
-                            <h3 className="text-[14px] leading-[21px] font-bold text-[#4B4D50] dark:text-white uppercase tracking-wider mb-2">Client</h3>
-                            <p className="text-[16px] leading-[24px] font-bold text-[#000000] dark:text-gray-400">{project.client || '-'}</p>
+                            <h3 className="text-[14px] leading-[21px] font-bold text-[#4B4D50] dark:text-white uppercase tracking-wider mb-2">Type</h3>
+                            <p className="text-[16px] leading-[24px] font-bold text-[#000000] dark:text-gray-400">{project.category || '-'}</p>
                         </div>
                         <div>
                             <h3 className="text-[14px] leading-[21px] font-bold text-[#4B4D50] dark:text-white uppercase tracking-wider mb-2">Link</h3>

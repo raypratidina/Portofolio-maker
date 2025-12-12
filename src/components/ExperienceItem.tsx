@@ -14,7 +14,7 @@ function formatDate(date: string) {
 }
 
 export default function ExperienceItem({ exp }: ExperienceItemProps) {
-    const [isOpen, setIsOpen] = useState(true); // Default open for readability
+    const [isOpen, setIsOpen] = useState(false); // Default closed as requested
 
     return (
         <div className="relative pl-6 border-l border-gray-200 dark:border-gray-800 last:border-0">
