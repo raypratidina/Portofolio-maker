@@ -4,6 +4,7 @@ import prisma from '@/lib/prisma';
 import PublicSidebar from '@/components/PublicSidebar';
 import MobileNavbar from '@/components/MobileNavbar';
 import ExperienceItem from '@/components/ExperienceItem';
+import ProjectSection from '@/components/ProjectSection';
 import { MapPin, Calendar, Download, ArrowRight } from 'lucide-react';
 import { Metadata } from 'next';
 
@@ -29,27 +30,14 @@ async function getData() {
     }
   });
 
-  const featuredProjects = await prisma.project.findMany({
+  const allProjects = await prisma.project.findMany({
     where: {
-      featured: true,
       status: 'PUBLISHED'
     } as any,
-    take: 4,
     orderBy: { createdAt: 'desc' }
   });
 
-  const designShotProjects = await prisma.project.findMany({
-    where: {
-      status: 'PUBLISHED',
-      category: {
-        contains: 'Exploration', // Filter for Exploration/Shot category
-      }
-    } as any,
-    take: 6,
-    orderBy: { createdAt: 'desc' }
-  });
-
-  return { user, featuredProjects, designShotProjects };
+  return { user, allProjects };
 }
 
 function formatDate(date: Date) {
@@ -57,61 +45,101 @@ function formatDate(date: Date) {
 }
 
 export default async function AboutPage() {
-  const { user, featuredProjects, designShotProjects } = await getData();
+  const { user, allProjects } = await getData();
 
   if (!user) {
     return <div>Loading...</div>;
   }
 
+  // Filter projects by category
+  const featuredProjects = allProjects.filter((p: any) => p.featured).slice(0, 4);
+  const designShotProjects = allProjects.filter((p: any) => p.category && p.category.includes('Exploration')).slice(0, 6);
+
+  const categorySections = [
+    { title: 'Finance', keyword: 'Finance' },
+    { title: 'ERP', keyword: 'ERP' },
+    { title: 'Education', keyword: 'Education' },
+    { title: 'Design System', keyword: 'Design System' },
+    { title: 'Landing Page', keyword: 'Landing Page' },
+    { title: 'Marketplace', keyword: 'Marketplace' },
+    { title: 'SaaS', keyword: 'SaaS' },
+    { title: 'Super App', keyword: 'Super App' },
+    { title: 'CRM', keyword: 'CRM' },
+  ];
+
   return (
-    <div className="min-h-screen bg-[#F9F9F9] dark:bg-black pb-20 md:pb-0">
-      <PublicSidebar user={user} />
+    <div className="min-h-screen bg-white dark:bg-black">
+      <PublicSidebar />
       <MobileNavbar />
 
-      {/* Mobile Header */}
-      <div className="md:hidden p-4 bg-white dark:bg-[#111] border-b border-gray-100 dark:border-gray-800 flex items-center justify-between sticky top-0 z-50">
-        <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden relative">
-            <Image
-              src={user.avatar || "https://ui-avatars.com/api/?name=Admin&background=0D8ABC&color=fff"}
-              alt="Profile"
-              fill
-              className="object-cover"
-              sizes="40px"
-            />
-          </div>
-          <div>
-            <h1 className="font-bold text-sm">{user.name}</h1>
-            <p className="font-medium text-xs bg-gradient-to-r from-sky-500 to-indigo-400 bg-clip-text text-transparent text-left">{user.role || 'Portfolio Owner'}</p>
-          </div>
-        </div>
-      </div>
+      <main className="md:ml-72 pb-20 md:pb-0">
+        <div className="max-w-5xl mx-auto px-6 py-12 md:py-20">
 
-      <main className="md:ml-64 p-6 md:p-12 lg:p-16">
-        <div className="w-full">
+          {/* Header */}
+          <header className="mb-20">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">
+              {user.name} <span className="text-gray-400 dark:text-gray-600 font-light">({user.title})</span>
+            </h1>
+            <p className="text-lg md:text-xl leading-relaxed text-gray-600 dark:text-gray-300 max-w-2xl">
+              {user.bio}
+            </p>
 
-          {/* Top Section: Intro & Experience Side-by-Side */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-
-            {/* Left Column: Intro Section */}
-            <div className="bg-white dark:bg-[#111] rounded-2xl p-8 border border-zinc-200 dark:border-gray-800 h-full">
-              <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">Hello, Im {user.name}</h1>
-              <p className="bg-gradient-to-r from-sky-500 to-indigo-400 bg-clip-text text-transparent mb-8 w-fit font-semibold">{user.role || 'Creative Professional'}</p>
-              <p className="text-[14px] leading-[21px] text-[#4B4D50] dark:text-gray-400 leading-relaxed mb-6">
-                {user.bio || 'No bio available yet.'}
-              </p>
-              {user.cvUrl && (
-                <div className="mt-6 pt-6 border-t border-gray-100 dark:border-gray-800">
-                  <a
-                    href={user.cvUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-full hover:bg-gray-800 transition-all hover:shadow-lg group dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100"
-                  >
-                    Get the CV
-                  </a>
+            <div className="flex flex-wrap gap-6 mt-8">
+              {user.location && (
+                <div className="flex items-center text-gray-500 dark:text-gray-400">
+                  <MapPin className="w-5 h-5 mr-2" />
+                  {user.location}
                 </div>
               )}
+              <div className="flex items-center text-gray-500 dark:text-gray-400">
+                <Calendar className="w-5 h-5 mr-2" />
+                {new Date().getFullYear()} Available
+              </div>
+            </div>
+
+            <div className="mt-8">
+              {user.cvUrl ? (
+                <a
+                  href={user.cvUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-full transition-all shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50"
+                >
+                  Get the CV
+                </a>
+              ) : (
+                <button disabled className="inline-flex items-center justify-center px-6 py-3 bg-gray-200 text-gray-400 font-medium rounded-full cursor-not-allowed">
+                  CV Not Available
+                </button>
+              )}
+            </div>
+          </header>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-20">
+            {/* Left Column: Stats or Intro */}
+            <div className="lg:col-span-2 space-y-8">
+              <div className="bg-gray-50 dark:bg-[#111] rounded-2xl p-8 border border-zinc-200 dark:border-gray-800">
+                <h2 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+                  About Me
+                </h2>
+                <div className="prose dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 leading-relaxed text-sm">
+                  <p>{user.about}</p>
+                </div>
+
+                {/* Tech Stack Chips (Example from user input) */}
+                {user.skills && user.skills.length > 0 && (
+                  <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-800">
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Tech Stack</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {user.skills.map((skill: string) => (
+                        <span key={skill} className="px-3 py-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full text-xs font-medium text-gray-600 dark:text-gray-300">
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Right Column: Experience Section */}
@@ -132,133 +160,39 @@ export default async function AboutPage() {
             </div>
           </div>
 
-          {/* Bottom Section: Selected Works */}
-          {featuredProjects.length > 0 && (
-            <div className="bg-white dark:bg-[#111] rounded-2xl p-8 border border-zinc-200 dark:border-gray-800 mb-12">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white">Selected Works</h2>
-                <Link href="/works" className="text-sm font-medium text-blue-600 hover:text-blue-700 flex items-center">
-                  View All <ArrowRight className="w-4 h-4 ml-1" />
-                </Link>
-              </div>
+          {/* Selected Works Section */}
+          <ProjectSection
+            title="Selected Works"
+            projects={featuredProjects}
+            viewAllLink="/works"
+          />
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-8">
-                {featuredProjects.map((project) => (
-                  <Link key={project.id} href={`/works/${project.slug}`} className="group block">
-                    {/* Card Image Container */}
-                    <div className="aspect-[4/3] bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden relative mb-3">
-                      {project.thumbnail ? (
-                        <img
-                          src={project.thumbnail}
-                          alt={project.title}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-gray-400">
-                          No Image
-                        </div>
-                      )}
+          {/* Design Shot Exploration Section */}
+          <ProjectSection
+            title="My Design Shot Exploration"
+            projects={designShotProjects}
+          />
 
-                      {/* Hover Overlay */}
-                      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <div className="bg-black/75 backdrop-blur-sm text-white px-3 py-1.5 rounded-full flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                          <span className="text-[10px] font-medium">View detail</span>
-                          <div className="bg-white/20 rounded-full p-0.5">
-                            <ArrowRight className="w-2.5 h-2.5" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+          {/* Dynamic Categories Sections */}
+          {categorySections.map((section) => {
+            // Filter projects case-insensitively
+            const categoryProjects = allProjects.filter((p: any) =>
+              p.category && p.category.toLowerCase().includes(section.keyword.toLowerCase())
+              // Exclude if it's already in featured? No, duplicates are fine/expected in portfolios.
+              // It's better to show relevant work in relevant section.
+            ).slice(0, 4); // Limit to 4 per category to keep homepage clean
 
-                    {/* Card Content */}
-                    <div>
-                      {/* Tags */}
-                      <div className="flex flex-wrap gap-2 mb-2">
-                        <span className="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wide">
-                          {project.client || project.category}
-                        </span>
-                        <span className="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wide">
-                          {project.year || new Date(project.createdAt).getFullYear()}
-                        </span>
-                      </div>
+            return (
+              <ProjectSection
+                key={section.title}
+                title={section.title}
+                projects={categoryProjects}
+              />
+            );
+          })}
 
-                      <h3 className="text-[15px] leading-tight font-bold text-gray-900 dark:text-white mb-1 group-hover:text-blue-600 transition-colors">
-                        {project.title}
-                      </h3>
-                      <p className="text-[13px] leading-relaxed text-gray-500 dark:text-gray-400 line-clamp-2">
-                        {project.descriptionShort || project.descriptionLong || 'No description available.'}
-                      </p>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-          )}
-
-          {/* Design Shot Exploration Section (New) */}
-          {designShotProjects && designShotProjects.length > 0 && (
-            <div className="bg-white dark:bg-[#111] rounded-2xl p-8 border border-zinc-200 dark:border-gray-800 mb-12">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white">My Design Shot Exploration</h2>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-8">
-                {designShotProjects.map((project: any) => (
-                  <Link key={project.id} href={`/works/${project.slug}`} className="group block">
-                    {/* Card Image Container */}
-                    <div className="aspect-[4/3] bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden relative mb-3">
-                      {project.thumbnail ? (
-                        <img
-                          src={project.thumbnail}
-                          alt={project.title}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-gray-400">
-                          No Image
-                        </div>
-                      )}
-
-                      {/* Hover Overlay */}
-                      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <div className="bg-black/75 backdrop-blur-sm text-white px-3 py-1.5 rounded-full flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                          <span className="text-[10px] font-medium">View detail</span>
-                          <div className="bg-white/20 rounded-full p-0.5">
-                            <ArrowRight className="w-2.5 h-2.5" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Card Content */}
-                    <div>
-                      {/* Tags */}
-                      <div className="flex flex-wrap gap-2 mb-2">
-                        <span className="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wide">
-                          {project.client || project.category}
-                        </span>
-                        <span className="bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wide">
-                          {project.year || new Date(project.createdAt).getFullYear()}
-                        </span>
-                      </div>
-
-                      <h3 className="text-[15px] leading-tight font-bold text-gray-900 dark:text-white mb-1 group-hover:text-blue-600 transition-colors">
-                        {project.title}
-                      </h3>
-                      <p className="text-[13px] leading-relaxed text-gray-500 dark:text-gray-400 line-clamp-2">
-                        {project.descriptionShort || project.descriptionLong || 'No description available.'}
-                      </p>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       </main>
     </div>
   );
-}
-
 
