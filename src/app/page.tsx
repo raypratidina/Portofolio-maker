@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import prisma from '@/lib/prisma';
@@ -6,19 +8,14 @@ import MobileNavbar from '@/components/MobileNavbar';
 import ExperienceItem from '@/components/ExperienceItem';
 import ProjectSection from '@/components/ProjectSection';
 import { MapPin, Calendar, Download, ArrowRight } from 'lucide-react';
-import { Metadata } from 'next';
 
-export const revalidate = 60; // Instant load, updates every 60s
-
-export async function generateMetadata(): Promise<Metadata> {
-  const user = await prisma.user.findFirst({
-    orderBy: { updatedAt: 'desc' }
-  });
-  return {
-    title: user?.name || 'Portfolio',
-    description: user?.bio || 'Check out my creative portfolio.',
-  };
-}
+// export const revalidate = 60; // Instant load, updates every 60s
+// Since we are using client components in imports (ProjectSection), we might need to be careful with 'use client'
+// But wait, page.tsx is a Server Component by default in App Router.
+// We cannot import 'use client' components directly if they are not default exported or handled correctly? 
+// Actually ProjectSection is 'use client'. page.tsx can be Server Component.
+// The issue is I removed specific imports or structure.
+// Let's rewrite the FULL file to be sure.
 
 async function getData() {
   const user = await prisma.user.findFirst({
@@ -178,9 +175,7 @@ export default async function AboutPage() {
             // Filter projects case-insensitively
             const categoryProjects = allProjects.filter((p: any) =>
               p.category && p.category.toLowerCase().includes(section.keyword.toLowerCase())
-              // Exclude if it's already in featured? No, duplicates are fine/expected in portfolios.
-              // It's better to show relevant work in relevant section.
-            ).slice(0, 4); // Limit to 4 per category to keep homepage clean
+            ).slice(0, 4);
 
             return (
               <ProjectSection
@@ -195,4 +190,4 @@ export default async function AboutPage() {
       </main>
     </div>
   );
-
+}
