@@ -75,17 +75,17 @@ export default async function AboutPage() {
           {/* Header */}
           <header className="mb-20">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">
-              {user.name} <span className="text-gray-400 dark:text-gray-600 font-light">({user.title})</span>
+              {user.name} <span className="text-gray-400 dark:text-gray-600 font-light">({user.role || 'Creative'})</span>
             </h1>
             <p className="text-lg md:text-xl leading-relaxed text-gray-600 dark:text-gray-300 max-w-2xl">
               {user.bio}
             </p>
 
             <div className="flex flex-wrap gap-6 mt-8">
-              {user.location && (
+              {user.country && (
                 <div className="flex items-center text-gray-500 dark:text-gray-400">
                   <MapPin className="w-5 h-5 mr-2" />
-                  {user.location}
+                  {user.country}
                 </div>
               )}
               <div className="flex items-center text-gray-500 dark:text-gray-400">
@@ -120,22 +120,8 @@ export default async function AboutPage() {
                   About Me
                 </h2>
                 <div className="prose dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 leading-relaxed text-sm">
-                  <p>{user.about}</p>
+                  <p>{user.bio}</p>
                 </div>
-
-                {/* Tech Stack Chips (Example from user input) */}
-                {user.skills && user.skills.length > 0 && (
-                  <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-800">
-                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Tech Stack</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {user.skills.map((skill: string) => (
-                        <span key={skill} className="px-3 py-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full text-xs font-medium text-gray-600 dark:text-gray-300">
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
 
