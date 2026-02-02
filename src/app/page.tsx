@@ -70,7 +70,7 @@ export default async function AboutPage() {
       <MobileNavbar />
 
       <main className="md:ml-72 pb-20 md:pb-0">
-        <div className="max-w-5xl mx-auto px-6 py-12 md:py-20">
+        <div className="max-w-6xl px-6 py-12 md:py-20">
 
           {/* Header */}
           <header className="mb-20">
