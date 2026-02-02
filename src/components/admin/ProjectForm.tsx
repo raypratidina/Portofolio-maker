@@ -116,14 +116,34 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
                     </div>
                     <div>
                         <label className={labelClasses}>Category</label>
-                        <input
-                            type="text"
+                        <select
                             name="category"
                             value={formData.category}
                             onChange={handleChange}
                             className={inputClasses}
                             required
-                        />
+                        >
+                            <option value="">Select Category</option>
+                            {[
+                                'Finance',
+                                'ERP',
+                                'Education',
+                                'Design System',
+                                'Landing Page',
+                                'Marketplace',
+                                'SaaS',
+                                'Super App',
+                                'CRM',
+                                'Exploration'
+                            ].map((cat) => (
+                                <option key={cat} value={cat}>
+                                    {cat}
+                                </option>
+                            ))}
+                            {/* Allow custom category if needed, or keep it strict. 
+                                For manual entry, user might need 'Other' option + input. 
+                                But user asked for specific list. I'll stick to strict select for now. */}
+                        </select>
                     </div>
                 </div>
 

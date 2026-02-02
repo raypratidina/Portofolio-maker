@@ -41,14 +41,7 @@ export default function SidebarNav() {
                 );
             })}
 
-            <div className="pt-6 border-t border-gray-200 dark:border-gray-800 mt-8">
-                <Link
-                    href="/admin/login"
-                    className="block text-xs font-medium text-gray-500 hover:text-gray-900 dark:text-gray-600 dark:hover:text-gray-400 transition-colors uppercase tracking-wider"
-                >
-                    Log in as Admin
-                </Link>
-            </div>
+
         </nav>
     );
 }
