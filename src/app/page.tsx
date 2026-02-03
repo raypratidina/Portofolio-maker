@@ -6,6 +6,7 @@ import PublicSidebar from '@/components/PublicSidebar';
 import MobileNavbar from '@/components/MobileNavbar';
 import ExperienceItem from '@/components/ExperienceItem';
 import ProjectSection from '@/components/ProjectSection';
+import CategoryTabs from '@/components/CategoryTabs';
 import { Download, ArrowRight } from 'lucide-react';
 
 // export const revalidate = 60; // Instant load, updates every 60s
@@ -129,20 +130,8 @@ export default async function AboutPage() {
           />
 
           {/* Dynamic Categories Sections */}
-          {categorySections.map((section) => {
-            // Filter projects case-insensitively
-            const categoryProjects = allProjects.filter((p: any) =>
-              p.category && p.category.toLowerCase().includes(section.keyword.toLowerCase())
-            ).slice(0, 4);
-
-            return (
-              <ProjectSection
-                key={section.title}
-                title={section.title}
-                projects={categoryProjects}
-              />
-            );
-          })}
+          {/* Dynamic Categories Tabs Section */}
+          <CategoryTabs allProjects={allProjects} />
 
         </div>
       </main>
