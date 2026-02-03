@@ -1,5 +1,4 @@
 
-
 import Link from 'next/link';
 import Image from 'next/image';
 import prisma from '@/lib/prisma';
@@ -7,7 +6,7 @@ import PublicSidebar from '@/components/PublicSidebar';
 import MobileNavbar from '@/components/MobileNavbar';
 import ExperienceItem from '@/components/ExperienceItem';
 import ProjectSection from '@/components/ProjectSection';
-import { MapPin, Calendar, Download, ArrowRight } from 'lucide-react';
+import { Download, ArrowRight } from 'lucide-react';
 
 // export const revalidate = 60; // Instant load, updates every 60s
 // Since we are using client components in imports (ProjectSection), we might need to be careful with 'use client'
@@ -72,52 +71,28 @@ export default async function AboutPage() {
       <main className="md:ml-72 pb-20 md:pb-0">
         <div className="max-w-6xl px-6 py-12 md:py-20">
 
-          {/* Header */}
-          <header className="mb-20">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">
-              {user.name} <span className="text-gray-400 dark:text-gray-600 font-light">({user.role || 'Creative'})</span>
-            </h1>
-            <p className="text-lg md:text-xl leading-relaxed text-gray-600 dark:text-gray-300 max-w-2xl">
-              {user.bio}
-            </p>
-
-            <div className="flex flex-wrap gap-6 mt-8">
-              {user.country && (
-                <div className="flex items-center text-gray-500 dark:text-gray-400">
-                  <MapPin className="w-5 h-5 mr-2" />
-                  {user.country}
-                </div>
-              )}
-              <div className="flex items-center text-gray-500 dark:text-gray-400">
-                <Calendar className="w-5 h-5 mr-2" />
-                {new Date().getFullYear()} Available
-              </div>
-            </div>
-
-            <div className="mt-8">
-              {user.cvUrl ? (
-                <a
-                  href={user.cvUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-full transition-all shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50"
-                >
-                  Get the CV
-                </a>
-              ) : (
-                <button disabled className="inline-flex items-center justify-center px-6 py-3 bg-gray-200 text-gray-400 font-medium rounded-full cursor-not-allowed">
-                  CV Not Available
-                </button>
-              )}
-            </div>
-          </header>
-
           <div className="space-y-12 mb-20">
             {/* About Me Section */}
             <div className="bg-gray-50 dark:bg-[#111] rounded-2xl p-8 border border-zinc-200 dark:border-gray-800">
-              <h2 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
-                About Me
-              </h2>
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-6">
+                <h2 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  About Me
+                </h2>
+                {user.cvUrl ? (
+                  <a
+                    href={user.cvUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-full transition-all shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50"
+                  >
+                    Get the CV
+                  </a>
+                ) : (
+                  <button disabled className="inline-flex items-center justify-center px-5 py-2 bg-gray-200 text-gray-400 text-sm font-medium rounded-full cursor-not-allowed">
+                    CV Not Available
+                  </button>
+                )}
+              </div>
               <div className="prose dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 leading-relaxed text-sm">
                 <p>{user.bio}</p>
               </div>

@@ -3,6 +3,7 @@ import SidebarNav from './SidebarNav';
 import { unstable_noStore as noStore } from 'next/cache';
 import ThemeToggle from './ThemeToggle';
 import Image from 'next/image';
+import { MapPin, Calendar } from 'lucide-react';
 
 async function getAdminProfile() {
     // Removed noStore() to allow caching (controlled by page revalidate)
@@ -36,7 +37,20 @@ export default async function PublicSidebar({ user }: PublicSidebarProps) {
                     </div>
                 </div>
                 <h1 className="text-2xl font-semibold text-gray-900 dark:text-white tracking-tight">{admin?.name || 'Admin'}</h1>
-                <p className="text-sm bg-gradient-to-r from-sky-500 to-indigo-400 bg-clip-text text-transparent mb-8 w-fit mt-2 font-semibold tracking-wide uppercase">{admin?.role || 'Portfolio Owner'}</p>
+                <p className="text-sm bg-gradient-to-r from-sky-500 to-indigo-400 bg-clip-text text-transparent mb-4 w-fit mt-2 font-semibold tracking-wide uppercase">{admin?.role || 'Portfolio Owner'}</p>
+
+                <div className="flex flex-col gap-2 text-xs text-gray-500 dark:text-gray-400">
+                    {admin?.country && (
+                        <div className="flex items-center">
+                            <MapPin className="w-3.5 h-3.5 mr-2 opacity-70" />
+                            {admin.country}
+                        </div>
+                    )}
+                    <div className="flex items-center">
+                        <Calendar className="w-3.5 h-3.5 mr-2 opacity-70" />
+                        {new Date().getFullYear()} Available
+                    </div>
+                </div>
 
 
             </div>
