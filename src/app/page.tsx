@@ -74,28 +74,27 @@ export default async function AboutPage() {
           <div className="space-y-12 mb-20">
             {/* About Me Section */}
             <div className="bg-gray-50 dark:bg-[#111] rounded-2xl p-8 border border-zinc-200 dark:border-gray-800">
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-6">
-                <h2 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  About Me
-                </h2>
-                {user.cvUrl ? (
-                  <a
-                    href={user.cvUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-full transition-all shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50"
-                  >
-                    Get the CV
-                  </a>
-                ) : (
-                  <button disabled className="inline-flex items-center justify-center px-5 py-2 bg-gray-200 text-gray-400 text-sm font-medium rounded-full cursor-not-allowed">
-                    CV Not Available
-                  </button>
-                )}
-              </div>
-              <div className="prose dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 leading-relaxed text-sm">
+              <h2 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
+                About Me
+              </h2>
+              <div className="prose dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 leading-relaxed text-sm mb-8">
                 <p>{user.bio}</p>
               </div>
+
+              {user.cvUrl ? (
+                <a
+                  href={user.cvUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-full transition-all shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50"
+                >
+                  Get the CV
+                </a>
+              ) : (
+                <button disabled className="inline-flex items-center justify-center px-5 py-2.5 bg-gray-200 text-gray-400 text-sm font-medium rounded-full cursor-not-allowed">
+                  CV Not Available
+                </button>
+              )}
             </div>
 
             {/* Experience Section */}
