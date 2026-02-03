@@ -30,10 +30,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 interface WorksPageProps {
-    searchParams: { [key: string]: string | string[] | undefined };
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export default async function WorksPage({ searchParams }: WorksPageProps) {
+export default async function WorksPage(props: WorksPageProps) {
+    const searchParams = await props.searchParams;
     const projects = await getPublishedProjects();
     const admin = await getAdminProfile();
 
