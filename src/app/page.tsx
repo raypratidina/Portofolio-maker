@@ -122,6 +122,10 @@ export default async function AboutPage() {
             projects={featuredProjects}
             viewAllLink="/works"
           />
+          {/* Dynamic Categories Sections */}
+          {/* Dynamic Categories Tabs Section */}
+          <CategoryTabs allProjects={allProjects} />
+
 
           {/* Design Shot Exploration Section */}
           <ProjectSection
@@ -129,9 +133,7 @@ export default async function AboutPage() {
             projects={designShotProjects}
           />
 
-          {/* Dynamic Categories Sections */}
-          {/* Dynamic Categories Tabs Section */}
-          <CategoryTabs allProjects={allProjects} />
+
 
         </div>
       </main>
