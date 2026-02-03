@@ -45,10 +45,6 @@ export default function CategoryTabs({ allProjects }: CategoryTabsProps) {
     return (
         <div className="bg-white dark:bg-[#111] rounded-2xl p-8 border border-zinc-200 dark:border-gray-800 mb-12">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white shrink-0">
-                    More Works
-                </h2>
-
                 {/* Scrollable Tabs Container */}
                 <div className="flex overflow-x-auto pb-2 md:pb-0 -mx-2 px-2 md:-mx-0 md:px-0 no-scrollbar gap-2 hide-scrollbar">
                     {availableCategories.map((cat) => {
