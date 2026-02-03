@@ -112,21 +112,19 @@ export default async function AboutPage() {
             </div>
           </header>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-20">
-            {/* Left Column: Stats or Intro */}
-            <div className="lg:col-span-2 space-y-8">
-              <div className="bg-gray-50 dark:bg-[#111] rounded-2xl p-8 border border-zinc-200 dark:border-gray-800">
-                <h2 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
-                  About Me
-                </h2>
-                <div className="prose dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 leading-relaxed text-sm">
-                  <p>{user.bio}</p>
-                </div>
+          <div className="space-y-12 mb-20">
+            {/* About Me Section */}
+            <div className="bg-gray-50 dark:bg-[#111] rounded-2xl p-8 border border-zinc-200 dark:border-gray-800">
+              <h2 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+                About Me
+              </h2>
+              <div className="prose dark:prose-invert max-w-none text-gray-600 dark:text-gray-400 leading-relaxed text-sm">
+                <p>{user.bio}</p>
               </div>
             </div>
 
-            {/* Right Column: Experience Section */}
-            <div className="bg-white dark:bg-[#111] rounded-2xl p-8 border border-zinc-200 dark:border-gray-800 h-full">
+            {/* Experience Section */}
+            <div className="bg-white dark:bg-[#111] rounded-2xl p-8 border border-zinc-200 dark:border-gray-800">
               <h2 className="text-xl font-semibold bg-gradient-to-r from-sky-500 to-indigo-400 bg-clip-text text-transparent mb-8 w-fit mb-6 flex items-center justify-between">
                 Experience
               </h2>
