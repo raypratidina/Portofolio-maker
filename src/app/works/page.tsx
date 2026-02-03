@@ -29,16 +29,26 @@ export async function generateMetadata(): Promise<Metadata> {
     };
 }
 
-export default async function WorksPage() {
+interface WorksPageProps {
+    searchParams: { [key: string]: string | string[] | undefined };
+}
+
+export default async function WorksPage({ searchParams }: WorksPageProps) {
     const projects = await getPublishedProjects();
     const admin = await getAdminProfile();
+
+    const categoryFilter = typeof searchParams.category === 'string' ? searchParams.category : null;
+
+    const filteredProjects = categoryFilter
+        ? projects.filter((p: any) => p.category && p.category.toLowerCase().includes(categoryFilter.toLowerCase()))
+        : projects;
 
     return (
         <div className="min-h-screen bg-[#F9F9F9] dark:bg-black pb-20 md:pb-0">
             <PublicSidebar />
             <MobileNavbar />
 
-            {/* Mobile Header */}
+            {/* Mobile Header - Removed duplicate code for brevity in prompt, effectively same content */}
             <div className="md:hidden p-4 bg-white dark:bg-[#111] border-b border-gray-100 dark:border-gray-800 flex items-center justify-between sticky top-0 z-50">
                 <div className="flex items-center space-x-3">
                     <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden relative">
@@ -60,7 +70,9 @@ export default async function WorksPage() {
             <main className="md:ml-64 p-6 md:p-12 lg:p-16">
                 <div className="max-w-8xl mx-auto">
                     {/* Header Section */}
-                    <h1 className="text-3xl font-bold bg-gradient-to-r from-sky-500 to-indigo-400 bg-clip-text text-transparent mb-8 w-fit">Works</h1>
+                    <h1 className="text-3xl font-bold bg-gradient-to-r from-sky-500 to-indigo-400 bg-clip-text text-transparent mb-8 w-fit">
+                        {categoryFilter ? `${categoryFilter} Works` : 'Works'}
+                    </h1>
 
                     <div className="bg-white dark:bg-[#111] p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 mb-12">
                         <p className="text-gray-700 dark:text-gray-300 font-medium text-lg flex items-center gap-2">
@@ -75,10 +87,12 @@ export default async function WorksPage() {
 
                     {/* Professional Works Section */}
                     <div className="bg-white dark:bg-[#111] rounded-2xl p-8 border border-gray-100 dark:border-gray-800">
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">Professional works</h2>
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">
+                            {categoryFilter ? `Projects in ${categoryFilter}` : 'Professional works'}
+                        </h2>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-10">
-                            {projects.map((project) => (
+                            {filteredProjects.map((project) => (
                                 <Link key={project.id} href={`/works/${project.slug}`} className="group block">
                                     {/* Card Image Container */}
                                     <div className="aspect-[4/3] bg-gray-100 dark:bg-gray-800 rounded-xl overflow-hidden relative mb-4">

@@ -44,35 +44,51 @@ export default function CategoryTabs({ allProjects }: CategoryTabsProps) {
 
     return (
         <div className="bg-white dark:bg-[#111] rounded-2xl p-8 border border-zinc-200 dark:border-gray-800 mb-12">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-                {/* Scrollable Tabs Container */}
-                <div className="flex overflow-x-auto pb-2 md:pb-0 -mx-2 px-2 md:-mx-0 md:px-0 no-scrollbar gap-2 hide-scrollbar">
-                    {availableCategories.map((cat) => {
-                        const isActive = activeTab === cat;
-                        return (
-                            <button
-                                key={cat}
-                                onClick={() => setActiveTab(cat)}
-                                className={`
-                                    relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap
-                                    ${isActive
-                                        ? 'text-white'
-                                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
-                                    }
-                                `}
-                            >
-                                {isActive && (
-                                    <motion.div
-                                        layoutId="activeTab"
-                                        className="absolute inset-0 bg-blue-600 rounded-full"
-                                        initial={false}
-                                        transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                                    />
-                                )}
-                                <span className="relative z-10">{cat}</span>
-                            </button>
-                        );
-                    })}
+            <div className="flex flex-col gap-6 mb-8">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <h2 className="text-xl font-bold text-gray-900 dark:text-white shrink-0">
+                        More Works
+                    </h2>
+
+                    {/* Scrollable Tabs Container */}
+                    <div className="flex overflow-x-auto pb-2 md:pb-0 -mx-2 px-2 md:-mx-0 md:px-0 no-scrollbar gap-2 hide-scrollbar">
+                        {availableCategories.map((cat) => {
+                            const isActive = activeTab === cat;
+                            return (
+                                <button
+                                    key={cat}
+                                    onClick={() => setActiveTab(cat)}
+                                    className={`
+                                        relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap
+                                        ${isActive
+                                            ? 'text-white'
+                                            : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800'
+                                        }
+                                    `}
+                                >
+                                    {isActive && (
+                                        <motion.div
+                                            layoutId="activeTab"
+                                            className="absolute inset-0 bg-blue-600 rounded-full"
+                                            initial={false}
+                                            transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                                        />
+                                    )}
+                                    <span className="relative z-10">{cat}</span>
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                <div className="flex justify-end">
+                    <Link
+                        href={`/works?category=${encodeURIComponent(activeTab)}`}
+                        className="text-xs font-medium text-blue-600 hover:text-blue-700 flex items-center transition-colors bg-blue-50 dark:bg-blue-900/20 px-3 py-1.5 rounded-full"
+                    >
+                        View all {activeTab} project
+                        <ArrowRight className="w-3 h-3 ml-1" />
+                    </Link>
                 </div>
             </div>
 
