@@ -28,40 +28,41 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-black">
-            <div className="bg-white dark:bg-[#111] p-8 rounded shadow-md w-full max-w-md">
-                <h1 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">Admin Login</h1>
-                {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
-                <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="min-h-screen flex flex-col items-center justify-center bg-background px-5 py-12">
+            <div className="bg-background border border-border p-6 sm:p-10 rounded-2xl w-full max-w-md">
+                <p className="admin-eyebrow mb-8">Ray Pratidina / Portfolio studio</p>
+                <h1 className="text-4xl font-medium mb-3 tracking-tight text-foreground">Admin Login</h1><p className="text-muted text-sm leading-relaxed mb-8">A space to curate your work and tell your story.</p>
+                {error && <p role="alert" className="text-red-500 mb-4 text-center">{error}</p>}
+                <form onSubmit={handleSubmit} className="space-y-5">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+                        <label className="block text-sm font-medium text-foreground " htmlFor="email">Email</label>
                         <input
-                            type="email"
+                            id="email" autoComplete="email" type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm text-gray-900 dark:text-white bg-white dark:bg-gray-900 font-medium placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent focus:bg-blue-50 dark:focus:bg-blue-900/20 transition-all duration-200"
+                            className="mt-1 block w-full px-3 py-2 border border-border  rounded-md shadow-none text-foreground  bg-background  font-medium placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-foreground focus:border-transparent focus:bg-background  transition-all duration-200"
                             required
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                        <label className="block text-sm font-medium text-foreground " htmlFor="password">Password</label>
                         <input
-                            type="password"
+                            id="password" autoComplete="current-password" type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm text-gray-900 dark:text-white bg-white dark:bg-gray-900 font-medium placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent focus:bg-blue-50 dark:focus:bg-blue-900/20 transition-all duration-200"
+                            className="mt-1 block w-full px-3 py-2 border border-border  rounded-md shadow-none text-foreground  bg-background  font-medium placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-foreground focus:border-transparent focus:bg-background  transition-all duration-200"
                             required
                         />
                     </div>
                     <button
                         type="submit"
-                        className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                        className="admin-primary w-full"
                     >
                         Sign In
                     </button>
                 </form>
                 <div className="text-center mt-4">
-                    <a href="/admin/register" className="text-sm text-blue-600 hover:underline">
+                    <a href="/admin/register" className="text-sm text-foreground hover:underline">
                         Need an account? Register
                     </a>
                 </div>

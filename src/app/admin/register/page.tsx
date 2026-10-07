@@ -37,51 +37,52 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-black">
-            <div className="bg-white dark:bg-[#111] p-8 rounded shadow-md w-full max-w-md">
-                <h1 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">Create Admin Account</h1>
-                {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
-                <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="min-h-screen flex flex-col items-center justify-center bg-background px-5 py-12">
+            <div className="bg-background border border-border p-6 sm:p-10 rounded-2xl w-full max-w-md">
+                <p className="admin-eyebrow mb-8">Ray Pratidina / Portfolio studio</p>
+                <h1 className="text-4xl font-medium mb-3 tracking-tight text-foreground">Create Admin Account</h1><p className="text-muted text-sm leading-relaxed mb-8">A space to curate your work and tell your story.</p>
+                {error && <p role="alert" className="text-red-500 mb-4 text-center">{error}</p>}
+                <form onSubmit={handleSubmit} className="space-y-5">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+                        <label className="block text-sm font-medium text-foreground " htmlFor="name">Name</label>
                         <input
-                            type="text"
+                            id="name" autoComplete="name" type="text"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm text-gray-900 dark:text-white bg-white dark:bg-gray-900 font-medium focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                            className="mt-1 block w-full px-3 py-2 border border-border  rounded-md shadow-none text-foreground  bg-background  font-medium focus:outline-none focus:ring-2 focus:ring-foreground focus:border-transparent"
                             placeholder="Your Name"
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+                        <label className="block text-sm font-medium text-foreground " htmlFor="email">Email</label>
                         <input
-                            type="email"
+                            id="email" autoComplete="email" type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm text-gray-900 dark:text-white bg-white dark:bg-gray-900 font-medium focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                            className="mt-1 block w-full px-3 py-2 border border-border  rounded-md shadow-none text-foreground  bg-background  font-medium focus:outline-none focus:ring-2 focus:ring-foreground focus:border-transparent"
                             required
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                        <label className="block text-sm font-medium text-foreground " htmlFor="password">Password</label>
                         <input
-                            type="password"
+                            id="password" autoComplete="new-password" type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm text-gray-900 dark:text-white bg-white dark:bg-gray-900 font-medium focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                            className="mt-1 block w-full px-3 py-2 border border-border  rounded-md shadow-none text-foreground  bg-background  font-medium focus:outline-none focus:ring-2 focus:ring-foreground focus:border-transparent"
                             required
                         />
                     </div>
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50"
+                        className="admin-primary w-full"
                     >
                         {loading ? 'Registering...' : 'Register'}
                     </button>
 
                     <div className="text-center mt-4">
-                        <a href="/admin/login" className="text-sm text-blue-600 hover:underline">
+                        <a href="/admin/login" className="text-sm text-foreground hover:underline">
                             Already have an account? Login
                         </a>
                     </div>

@@ -19,8 +19,9 @@ export default async function EditProjectPage({
 
     return (
         <div>
-            <h1 className="text-3xl font-bold mb-8 text-gray-800">Edit Project</h1>
-            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+            <p className="admin-eyebrow mb-4">02 / Project editor</p>
+            <h1 className="text-4xl md:text-5xl font-medium mb-8 text-foreground">Edit Project</h1>
+            <div className="bg-background p-6 rounded-xl shadow-none border border-border">
                 <ProjectForm initialData={project} />
             </div>
         </div>

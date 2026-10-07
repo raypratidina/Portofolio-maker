@@ -39,19 +39,19 @@ export default function FileUploader({ value, onChange, label = "File", accept =
 
     return (
         <div className="space-y-2">
-            <label className="block text-sm font-medium text-gray-700">{label}</label>
+            <label className="block text-sm font-medium text-foreground">{label}</label>
 
             {value ? (
-                <div className="relative w-full p-4 bg-gray-50 border border-gray-200 rounded-lg flex items-center justify-between group">
+                <div className="relative w-full p-4 bg-foreground/3 border border-border rounded-lg flex items-center justify-between group">
                     <div className="flex items-center space-x-3 overflow-hidden">
-                        <div className="p-2 bg-blue-100 rounded-lg">
-                            <FileText className="w-6 h-6 text-blue-600" />
+                        <div className="p-2 bg-foreground/5 rounded-lg">
+                            <FileText className="w-6 h-6 text-foreground" />
                         </div>
                         <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium text-gray-900 truncate">
+                            <p className="text-sm font-medium text-foreground truncate">
                                 {value.split('/').pop()}
                             </p>
-                            <a href={value} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 hover:underline">
+                            <a href={value} target="_blank" rel="noopener noreferrer" className="text-xs text-foreground hover:underline">
                                 View File
                             </a>
                         </div>
@@ -59,26 +59,27 @@ export default function FileUploader({ value, onChange, label = "File", accept =
                     <button
                         type="button"
                         onClick={() => onChange('')}
-                        className="p-1 text-gray-400 hover:text-red-500 transition-colors"
+                        className="p-1 text-muted hover:text-red-500 transition-colors"
                     >
                         <X className="w-5 h-5" />
                     </button>
                 </div>
             ) : (
-                <div className="flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md hover:border-blue-500 transition-colors bg-white">
+                <div className="flex justify-center px-6 pt-5 pb-6 border-2 border-border border-dashed rounded-md hover:border-foreground transition-colors bg-background">
                     <div className="space-y-1 text-center">
-                        <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                        <div className="flex text-sm text-gray-600 justify-center">
-                            <label className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                        <Upload className="mx-auto h-12 w-12 text-muted" />
+                        <div className="flex text-sm text-muted justify-center">
+                            <label className="relative cursor-pointer bg-background rounded-md font-medium text-foreground hover:text-muted focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
                                 <span>Upload a file</span>
                                 <input type="file" className="sr-only" accept={accept} onChange={handleUpload} disabled={uploading} />
                             </label>
                         </div>
-                        <p className="text-xs text-gray-500">PDF up to 10MB</p>
+                        <p className="text-xs text-muted">PDF up to 10MB</p>
                     </div>
                 </div>
             )}
-            {uploading && <p className="text-sm text-blue-500 font-medium animate-pulse">Uploading...</p>}
+            {uploading && <p className="text-sm text-muted font-medium animate-pulse">Uploading...</p>}
         </div>
     );
 }
+

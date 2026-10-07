@@ -1,12 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import type { Project } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import ImageUploader from './ImageUploader';
 import RichTextEditor from './RichTextEditor';
 
 interface ProjectFormProps {
-    initialData?: any;
+    initialData?: Project;
 }
 
 export default function ProjectForm({ initialData }: ProjectFormProps) {
@@ -85,11 +86,11 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
         }));
     };
 
-    const inputClasses = "mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm text-gray-900 dark:text-white bg-white dark:bg-gray-900 font-medium placeholder-gray-400 focus:ring-2 focus:ring-blue-600 focus:border-transparent focus:bg-blue-50 dark:focus:bg-blue-900/20 transition-all duration-200 outline-none";
-    const labelClasses = "block text-sm font-medium text-gray-700 dark:text-gray-300";
+    const inputClasses = "mt-1 block w-full px-3 py-2 border border-border  rounded-md shadow-none text-foreground  bg-background  font-medium placeholder-gray-400 focus:ring-2 focus:ring-foreground focus:border-transparent focus:bg-background  transition-all duration-200 outline-none";
+    const labelClasses = "block text-sm font-medium text-foreground ";
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-8 max-w-4xl">
+        <form onSubmit={handleSubmit} className="space-y-8 w-full">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
                     <div>
@@ -140,8 +141,8 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
                                     {cat}
                                 </option>
                             ))}
-                            {/* Allow custom category if needed, or keep it strict. 
-                                For manual entry, user might need 'Other' option + input. 
+                            {/* Allow custom category if needed, or keep it strict.
+                                For manual entry, user might need 'Other' option + input.
                                 But user asked for specific list. I'll stick to strict select for now. */}
                         </select>
                     </div>
@@ -175,7 +176,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
                 />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-8 border-t border-border">
                 <div>
                     <label className={labelClasses}>Client</label>
                     <input
@@ -218,7 +219,7 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
                     />
                 </div>
                 <div>
-                    <label className={labelClasses}>Project Link <span className="text-gray-400 font-normal">(Optional)</span></label>
+                    <label className={labelClasses}>Project Link <span className="text-muted font-normal">(Optional)</span></label>
                     <input
                         type="url"
                         name="link"
@@ -234,9 +235,10 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
                         <button
                             type="button"
                             onClick={handleStatusToggle}
-                            className={`${formData.status === 'PUBLISHED' ? 'bg-blue-600' : 'bg-gray-200 dark:bg-gray-700'
-                                } relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2`}
+                            className={`${formData.status === 'PUBLISHED' ? 'bg-foreground' : 'bg-gray-200 '
+                                } relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2`}
                             role="switch"
+                            aria-label="Publish project"
                             aria-checked={formData.status === 'PUBLISHED'}
                         >
                             <span
@@ -245,25 +247,25 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
                                     } pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out`}
                             />
                         </button>
-                        <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                        <span className="ml-3 text-sm font-medium text-foreground ">
                             {formData.status === 'PUBLISHED' ? 'Published' : 'Draft'}
                         </span>
                     </div>
                 </div>
             </div>
 
-            <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200 dark:border-gray-800">
+            <div className="flex justify-end space-x-4 pt-6 border-t border-border ">
                 <button
                     type="button"
                     onClick={() => router.back()}
-                    className="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none"
+                    className="px-4 py-2 border border-border  rounded-md shadow-none text-sm font-medium text-foreground  bg-background  hover:bg-foreground/3  focus:outline-none"
                 >
                     Cancel
                 </button>
                 <button
                     type="submit"
                     disabled={loading}
-                    className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none disabled:opacity-50"
+                    className="admin-primary"
                 >
                     {loading ? 'Saving...' : 'Save Project'}
                 </button>
@@ -271,3 +273,4 @@ export default function ProjectForm({ initialData }: ProjectFormProps) {
         </form>
     );
 }
+

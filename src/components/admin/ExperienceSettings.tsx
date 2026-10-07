@@ -93,13 +93,13 @@ export default function ExperienceSettings() {
     if (loading) return <div>Loading experiences...</div>;
 
     return (
-        <div className="mt-12 pt-8 border-t border-gray-100">
-            <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold text-gray-900">Experience</h2>
+        <div className="mt-12 pt-8 border-t border-border">
+            <div className="flex flex-wrap justify-between items-center gap-4 mb-6">
+                <h2 className="text-xl font-medium text-foreground">Experience</h2>
                 {!isEditing && (
                     <button
                         onClick={() => setIsEditing(true)}
-                        className="flex items-center px-3 py-1.5 bg-black text-white text-sm rounded-lg hover:bg-gray-800"
+                        className="admin-primary"
                     >
                         <Plus className="w-4 h-4 mr-1" /> Add Experience
                     </button>
@@ -107,57 +107,57 @@ export default function ExperienceSettings() {
             </div>
 
             {isEditing && (
-                <div className="bg-gray-50 p-6 rounded-xl mb-8 border border-gray-200">
+                <div className="bg-foreground/3 p-6 rounded-xl mb-8 border border-border">
                     <form onSubmit={handleSubmit} className="space-y-4">
-                        <div className="flex gap-4">
-                            <div className="w-1/4">
+                        <div className="flex flex-col sm:flex-row gap-4">
+                            <div className="w-full sm:w-1/4">
                                 <ImageUploader
                                     label="Company Logo"
                                     value={formData.logo || ''}
                                     onChange={(url) => setFormData({ ...formData, logo: url })}
                                 />
                             </div>
-                            <div className="w-3/4 space-y-4">
-                                <div className="grid grid-cols-2 gap-4">
+                            <div className="w-full sm:w-3/4 space-y-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700">Company Name</label>
+                                        <label className="block text-sm font-medium text-foreground">Company Name</label>
                                         <input
                                             type="text"
                                             required
-                                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 font-medium placeholder-gray-400 focus:ring-2 focus:ring-blue-600 focus:border-transparent focus:bg-blue-50 transition-all duration-200 outline-none"
+                                            className="mt-1 block w-full px-3 py-2 border border-border rounded-md shadow-none text-foreground font-medium placeholder-gray-400 focus:ring-2 focus:ring-foreground focus:border-transparent focus:bg-background transition-all duration-200 outline-none"
                                             value={formData.company || ''}
                                             onChange={e => setFormData({ ...formData, company: e.target.value })}
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700">Role / Title</label>
+                                        <label className="block text-sm font-medium text-foreground">Role / Title</label>
                                         <input
                                             type="text"
                                             required
-                                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 font-medium placeholder-gray-400 focus:ring-2 focus:ring-blue-600 focus:border-transparent focus:bg-blue-50 transition-all duration-200 outline-none"
+                                            className="mt-1 block w-full px-3 py-2 border border-border rounded-md shadow-none text-foreground font-medium placeholder-gray-400 focus:ring-2 focus:ring-foreground focus:border-transparent focus:bg-background transition-all duration-200 outline-none"
                                             value={formData.role || ''}
                                             onChange={e => setFormData({ ...formData, role: e.target.value })}
                                         />
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700">Start Date</label>
+                                        <label className="block text-sm font-medium text-foreground">Start Date</label>
                                         <input
                                             type="month"
                                             required
-                                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-gray-900 font-medium placeholder-gray-400 focus:ring-2 focus:ring-blue-600 focus:border-transparent focus:bg-blue-50 transition-all duration-200 outline-none"
+                                            className="mt-1 block w-full px-3 py-2 border border-border rounded-md shadow-none text-foreground font-medium placeholder-gray-400 focus:ring-2 focus:ring-foreground focus:border-transparent focus:bg-background transition-all duration-200 outline-none"
                                             value={formData.startDate ? formData.startDate.substring(0, 7) : ''}
                                             onChange={e => setFormData({ ...formData, startDate: e.target.value + '-01' })}
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700">End Date</label>
+                                        <label className="block text-sm font-medium text-foreground">End Date</label>
                                         <input
                                             type="month"
                                             disabled={formData.current}
-                                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-600 focus:border-transparent focus:bg-blue-50 transition-all duration-200 outline-none disabled:opacity-50"
+                                            className="mt-1 block w-full px-3 py-2 border border-border rounded-md shadow-none focus:ring-2 focus:ring-foreground focus:border-transparent focus:bg-background transition-all duration-200 outline-none disabled:opacity-50"
                                             value={formData.endDate ? formData.endDate.substring(0, 7) : ''}
                                             onChange={e => setFormData({ ...formData, endDate: e.target.value + '-01' })}
                                         />
@@ -167,30 +167,30 @@ export default function ExperienceSettings() {
                                                 id="current"
                                                 checked={formData.current}
                                                 onChange={e => setFormData({ ...formData, current: e.target.checked, endDate: undefined })}
-                                                className="h-4 w-4 text-blue-600 rounded border-gray-300"
+                                                className="h-4 w-4 text-foreground rounded border-border"
                                             />
-                                            <label htmlFor="current" className="ml-2 text-sm text-gray-600">I currently work here</label>
+                                            <label htmlFor="current" className="ml-2 text-sm text-muted">I currently work here</label>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700">Location</label>
+                                        <label className="block text-sm font-medium text-foreground">Location</label>
                                         <input
                                             type="text"
                                             placeholder="e.g. Jakarta, Indonesia"
-                                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-600 focus:border-transparent focus:bg-blue-50 transition-all duration-200 outline-none"
+                                            className="mt-1 block w-full px-3 py-2 border border-border rounded-md shadow-none focus:ring-2 focus:ring-foreground focus:border-transparent focus:bg-background transition-all duration-200 outline-none"
                                             value={formData.location || ''}
                                             onChange={e => setFormData({ ...formData, location: e.target.value })}
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700">Type</label>
+                                        <label className="block text-sm font-medium text-foreground">Type</label>
                                         <input
                                             type="text"
                                             placeholder="e.g. Full-time, Hybrid"
-                                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-600 focus:border-transparent focus:bg-blue-50 transition-all duration-200 outline-none"
+                                            className="mt-1 block w-full px-3 py-2 border border-border rounded-md shadow-none focus:ring-2 focus:ring-foreground focus:border-transparent focus:bg-background transition-all duration-200 outline-none"
                                             value={formData.type || ''}
                                             onChange={e => setFormData({ ...formData, type: e.target.value })}
                                         />
@@ -198,10 +198,10 @@ export default function ExperienceSettings() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700">Description</label>
+                                    <label className="block text-sm font-medium text-foreground">Description</label>
                                     <textarea
                                         rows={3}
-                                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-600 focus:border-transparent focus:bg-blue-50 transition-all duration-200 outline-none"
+                                        className="mt-1 block w-full px-3 py-2 border border-border rounded-md shadow-none focus:ring-2 focus:ring-foreground focus:border-transparent focus:bg-background transition-all duration-200 outline-none"
                                         value={formData.description || ''}
                                         onChange={e => setFormData({ ...formData, description: e.target.value })}
                                     />
@@ -213,13 +213,13 @@ export default function ExperienceSettings() {
                             <button
                                 type="button"
                                 onClick={handleCancel}
-                                className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+                                className="px-4 py-2 text-foreground hover:bg-foreground/5 rounded-lg"
                             >
                                 Cancel
                             </button>
                             <button
                                 type="submit"
-                                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                                className="admin-primary"
                             >
                                 Save Experience
                             </button>
@@ -230,19 +230,19 @@ export default function ExperienceSettings() {
 
             <div className="space-y-4">
                 {experiences.map((exp) => (
-                    <div key={exp.id} className="bg-white p-4 rounded-xl border border-gray-100 flex justify-between items-start group hover:shadow-sm transition-shadow">
-                        <div className="flex gap-4">
-                            <div className="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center overflow-hidden border border-gray-200">
+                    <div key={exp.id} className="bg-background p-4 rounded-xl border border-border flex justify-between items-start group hover:shadow-none transition-shadow">
+                        <div className="flex flex-col sm:flex-row gap-4">
+                            <div className="w-12 h-12 rounded-lg bg-foreground/5 flex items-center justify-center overflow-hidden border border-border">
                                 {exp.logo ? (
                                     <img src={exp.logo} alt="" className="w-full h-full object-cover" />
                                 ) : (
-                                    <Briefcase className="w-5 h-5 text-gray-400" />
+                                    <Briefcase className="w-5 h-5 text-muted" />
                                 )}
                             </div>
                             <div>
-                                <h3 className="font-bold text-gray-900">{exp.company}</h3>
-                                <p className="text-sm text-gray-600">{exp.role}</p>
-                                <div className="flex items-center gap-3 text-xs text-gray-500 mt-1">
+                                <h3 className="font-medium text-foreground">{exp.company}</h3>
+                                <p className="text-sm text-muted">{exp.role}</p>
+                                <div className="flex flex-wrap items-center gap-3 text-xs text-muted mt-1">
                                     <span className="flex items-center">
                                         <Calendar className="w-3 h-3 mr-1" />
                                         {new Date(exp.startDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })} -
@@ -257,16 +257,16 @@ export default function ExperienceSettings() {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="flex space-x-2 opacity-100 transition-opacity">
                             <button
                                 onClick={() => handleEdit(exp)}
-                                className="p-2 text-gray-400 hover:text-blue-600"
+                                className="p-2 text-muted hover:text-foreground"
                             >
                                 Edit
                             </button>
                             <button
                                 onClick={() => handleDelete(exp.id)}
-                                className="p-2 text-gray-400 hover:text-red-600"
+                                className="p-2 text-muted hover:text-red-600"
                             >
                                 <Trash2 className="w-4 h-4" />
                             </button>
@@ -274,7 +274,7 @@ export default function ExperienceSettings() {
                     </div>
                 ))}
                 {experiences.length === 0 && !loading && (
-                    <div className="text-center py-8 text-gray-400 text-sm">
+                    <div className="text-center py-8 text-muted text-sm">
                         No experience added yet.
                     </div>
                 )}

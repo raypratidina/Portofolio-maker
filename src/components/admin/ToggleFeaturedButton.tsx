@@ -2,7 +2,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Star, StarOff } from 'lucide-react';
+import { Star } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 interface ToggleFeaturedButtonProps {
@@ -43,8 +43,10 @@ export default function ToggleFeaturedButton({ id, initialFeatured }: ToggleFeat
         <button
             onClick={toggleFeatured}
             disabled={loading}
-            className={`p-1 rounded-full transition-colors ${featured ? 'text-yellow-500 hover:text-yellow-600' : 'text-gray-300 hover:text-gray-400'
+            className={`inline-flex min-h-11 min-w-11 items-center justify-center rounded-full transition-colors ${featured ? 'text-foreground hover:text-muted' : 'text-muted hover:text-foreground'
                 }`}
+            aria-pressed={featured}
+            aria-label={featured ? "Remove from featured projects" : "Feature project"}
             title={featured ? 'Unfeature' : 'Feature'}
         >
             {featured ? <Star className="w-5 h-5 fill-current" /> : <Star className="w-5 h-5" />}

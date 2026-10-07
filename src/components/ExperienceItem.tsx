@@ -64,7 +64,7 @@ export default function ExperienceItem({ exp }: ExperienceItemProps) {
                 className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[500px] opacity-100 mt-3' : 'max-h-0 opacity-0 mt-0'}`}
             >
                 <div className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed space-y-1 ml-11 sm:ml-0">
-                    {exp.description.match(/[-•]/) || exp.description.includes('\n') ? (
+                    {exp.description && (exp.description.match(/[-•]/) || exp.description.includes('\n')) ? (
                         <ul className="list-none space-y-1.5 list-inside">
                             {/* Regex split logic for formatting */}
                             {exp.description

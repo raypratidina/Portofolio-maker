@@ -1,13 +1,15 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import type ReactQuillInstance from 'react-quill-new';
+import type { ComponentPropsWithRef } from 'react';
 import { useMemo, useRef } from 'react';
 import 'react-quill-new/dist/quill.snow.css';
 
 // Dynamic import to avoid SSR issues with Quill
-const ReactQuill = dynamic(() => import('react-quill-new'), {
+const ReactQuill = dynamic<ComponentPropsWithRef<typeof ReactQuillInstance>>(() => import('react-quill-new'), {
     ssr: false,
-    loading: () => <div className="h-64 w-full bg-gray-100 dark:bg-gray-800 animate-pulse rounded-md" />
+    loading: () => <div className="h-64 w-full bg-foreground/5  animate-pulse rounded-md" />
 });
 
 interface RichTextEditorProps {
@@ -18,7 +20,7 @@ interface RichTextEditorProps {
 
 export default function RichTextEditor({ value, onChange, label }: RichTextEditorProps) {
     // Correctly type the ref to access the ReactQuill instance methods
-    const quillRef = useRef<any>(null);
+    const quillRef = useRef<ReactQuillInstance>(null);
 
     // useMemo to prevent modules from being recreated on every render, causing Quill to re-init
     const modules = useMemo(() => ({
@@ -57,7 +59,7 @@ export default function RichTextEditor({ value, onChange, label }: RichTextEdito
                                 const url = data.url;
 
                                 // Insert image embed
-                                // We need to access the quill instance. 
+                                // We need to access the quill instance.
                                 // Since this handler is defined inside useMemo, we need access to quillRef.
                                 // However, `this` context inside handler refers to the toolbar usually.
                                 // But we can use the ref if it's stable.
@@ -87,16 +89,16 @@ export default function RichTextEditor({ value, onChange, label }: RichTextEdito
 
     return (
         <div className="space-y-2">
-            {label && <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">{label}</label>}
-            <div className="quill-wrapper bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-md overflow-hidden">
+            {label && <label className="block text-sm font-medium text-foreground ">{label}</label>}
+            <div className="quill-wrapper bg-background  border border-border  rounded-md overflow-hidden">
                 <ReactQuill
-                    {...({ ref: quillRef } as any)}
+                    ref={quillRef}
                     theme="snow"
                     value={value}
                     onChange={onChange}
                     modules={modules}
                     formats={formats}
-                    className="text-gray-900 dark:text-white"
+                    className="text-foreground "
                 />
             </div>
             <style jsx global>{`
@@ -133,3 +135,4 @@ export default function RichTextEditor({ value, onChange, label }: RichTextEdito
         </div>
     );
 }
+

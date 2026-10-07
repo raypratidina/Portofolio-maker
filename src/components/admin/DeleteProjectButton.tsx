@@ -26,7 +26,7 @@ export default function DeleteProjectButton({ id }: { id: string }) {
     };
 
     return (
-        <button onClick={handleDelete} className="text-red-600 hover:text-red-900">
+        <button type="button" aria-label="Delete project" onClick={handleDelete} className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full text-muted hover:bg-red-500/10 hover:text-red-600">
             <Trash2 className="w-5 h-5" />
         </button>
     );
