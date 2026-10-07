@@ -103,14 +103,14 @@ export function ProjectDetailHeroClient({ project, projectNumber }: ProjectDetai
               </h1>
             </motion.div>
 
-            <motion.div variants={item} className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16 pt-8 md:pt-16 mt-8 md:mt-16 border-t border-border/40">
-              <div className="lg:col-span-3 xl:col-span-3">
+            <motion.div variants={item} className="grid grid-cols-1 gap-8 md:gap-10 pt-8 md:pt-12 mt-8 md:mt-12 border-t border-border/40">
+              <div className="min-w-0">
                 <p className="text-xl md:text-2xl lg:text-3xl font-medium tracking-tight leading-snug text-foreground/90">
                   {project.shortDescription}
                 </p>
               </div>
               
-              <div className="lg:col-span-2 xl:col-span-2 flex flex-col gap-8 lg:text-right font-mono text-xs tracking-widest uppercase">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-[1fr_1fr_auto] items-center gap-4 font-mono text-xs tracking-widest uppercase">
                 <div className="p-6 rounded-2xl border border-border/40 bg-muted/5 backdrop-blur-md">
                   <span className="text-muted block mb-2">Role</span>
                   <span className="font-medium text-foreground">{project.role}</span>
@@ -140,13 +140,15 @@ export function ProjectDetailHeroClient({ project, projectNumber }: ProjectDetai
              initial={{ opacity: 0, scale: 0.95 }}
              animate={{ opacity: 1, scale: 1 }}
              transition={{ delay: 0.8, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-             className="relative aspect-[16/9] md:aspect-[21/9] w-full overflow-hidden rounded-2xl md:rounded-[2rem] border border-border/40 bg-muted/10 shadow-2xl"
+             className="relative w-full overflow-hidden rounded-2xl md:rounded-[2rem] border border-border/40 bg-muted/10 shadow-2xl"
            >
              <Image
                 src={project.heroImage}
                 alt={`${project.title} hero visual`}
-                fill
-                className="object-cover"
+                width={1600}
+                height={1000}
+                sizes="(min-width: 1600px) 1536px, (min-width: 768px) calc(100vw - 64px), calc(100vw - 32px)"
+                className="block w-full h-auto object-contain"
                 priority
              />
            </motion.div>

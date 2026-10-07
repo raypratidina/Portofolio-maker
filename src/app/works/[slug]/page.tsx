@@ -38,7 +38,7 @@ export default async function ProjectDetailPage({
                 <ProjectDetailHeroClient project={project} projectNumber={projectNumber} />
 
                 {/* 03 & 04 & 05 — STORYTELLING CONTENT (CASE STUDY RENDERER) */}
-                <section className="px-6 md:px-12 max-w-[1000px] mx-auto mb-32 md:mb-48 mt-12">
+                <section className="px-6 md:px-12 max-w-[1440px] mx-auto mb-32 md:mb-48 mt-12">
                     <CaseStudyRenderer blocks={project.caseStudyBlocks} />
                 </section>
 
