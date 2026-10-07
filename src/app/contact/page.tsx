@@ -1,8 +1,8 @@
 import prisma from '@/lib/prisma';
 import PublicSidebar from '@/components/PublicSidebar';
 import MobileNavbar from '@/components/MobileNavbar';
-import { Mail, MapPin } from 'lucide-react';
-import { Metadata } from 'next';
+import { Mail, MapPin, Phone } from 'lucide-react';
+import { getSiteSettings } from '@/lib/content';
 import Image from 'next/image';
 
 export const revalidate = 60; // Instant load
@@ -14,7 +14,7 @@ async function getUser() {
 }
 
 export default async function ContactPage() {
-    const user = await getUser();
+    const [user, settings] = await Promise.all([getUser(), getSiteSettings()]);
 
     return (
         <div className="min-h-screen bg-[#F9F9F9] dark:bg-black pb-20 md:pb-0">
@@ -55,12 +55,21 @@ export default async function ContactPage() {
                                 </div>
                                 <div>
                                     <p className="text-[14px] leading-[21px] text-[#4B4D50] dark:text-gray-400">Email me at</p>
-                                    <a href={`mailto:${user?.email}`} className="text-[16px] leading-[24px] font-bold text-[#000000] dark:text-white hover:text-blue-600 transition-colors">
-                                        {user?.email || 'contact@example.com'}
+                                    <a href={`mailto:${settings.email}`} className="text-[16px] leading-[24px] font-bold text-[#000000] dark:text-white hover:text-blue-600 transition-colors break-all">
+                                        {settings.email}
                                     </a>
                                 </div>
                             </div>
 
+                            {settings.phone && (
+                                <div className="flex items-center gap-4">
+                                    <div className="w-10 h-10 shrink-0 rounded-full bg-foreground/5 flex items-center justify-center text-foreground"><Phone className="w-5 h-5" aria-hidden="true" /></div>
+                                    <div>
+                                        <p className="text-sm text-muted">Phone</p>
+                                        <a href={`tel:${settings.phone.replace(/[\s()-]/g, '')}`} className="inline-flex min-h-11 items-center text-base font-medium text-foreground hover:text-muted">{settings.phone}</a>
+                                    </div>
+                                </div>
+                            )}
                             {user?.country && (
                                 <div className="flex items-center space-x-4">
                                     <div className="w-10 h-10 rounded-full bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-green-600">

@@ -7,6 +7,7 @@ export interface SiteSettings {
   heroDescription: string;
   availability: string;
   email: string;
+  phone?: string;
   socialLinks: { platform: string; url: string }[];
   seoTitle: string;
   seoDescription: string;

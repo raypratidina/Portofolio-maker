@@ -8,7 +8,8 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     heroHeadline: 'RAY PRATIDINA',
     heroDescription: 'I design digital products that make complex things feel simple.',
     availability: 'Open to opportunities',
-    email: 'raypratidina@example.com', // Replace with real email if available
+    email: 'Rayzp642@gmail.com',
+    phone: '+6281384015563',
     socialLinks: [
       { platform: 'LinkedIn', url: '#' },
       { platform: 'Dribbble', url: '#' },
